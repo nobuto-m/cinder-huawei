@@ -44,6 +44,10 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
     mandatory_config = ["protocol", "rest-url", "username", "password"]
 
     def cinder_configuration(self):
+        mandatory_config_values = map(self.config.get, self.mandatory_config)
+        if not all(list(mandatory_config_values)):
+            return
+
         protocol = self.config.get("protocol").lower()
         if protocol == "iscsi":
             volume_driver = HUAWEI_DRIVER_ISCSI
