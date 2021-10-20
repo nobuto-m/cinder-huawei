@@ -51,6 +51,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
+                "storage-pool": "MyPool",
             }
         )
         config = charm.cinder_configuration()
@@ -77,10 +78,11 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": None,
+                "storage-pool": "MyPool",
             }
         )
         config = charm.cinder_configuration()
-        self.assertEqual(config, None)
+        self.assertEqual(config, [])
 
     def test_cinder_configuration_fc(self):
         self.patch_object(charmhelpers.core.hookenv, "service_name")
@@ -92,6 +94,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
+                "storage-pool": "MyPool",
             }
         )
         config = charm.cinder_configuration()
@@ -120,6 +123,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
+                "storage-pool": "MyPool",
             }
         )
         config = charm.cinder_configuration()
@@ -148,6 +152,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
+                "storage-pool": "MyPool",
                 "use-multipath": True,
             }
         )
