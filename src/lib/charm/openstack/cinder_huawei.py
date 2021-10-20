@@ -41,12 +41,18 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
     stateless = True
 
     # Specify any config that the user *must* set.
-    mandatory_config = ["protocol", "rest-url", "username", "password"]
+    mandatory_config = [
+        "protocol",
+        "rest-url",
+        "username",
+        "password",
+        "storage-pool",
+    ]
 
     def cinder_configuration(self):
         mandatory_config_values = map(self.config.get, self.mandatory_config)
         if not all(list(mandatory_config_values)):
-            return
+            return []
 
         protocol = self.config.get("protocol").lower()
         if protocol == "iscsi":
