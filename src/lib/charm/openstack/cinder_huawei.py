@@ -1,5 +1,6 @@
 import charms_openstack.charm
 import charmhelpers.core.hookenv as ch_hookenv  # noqa
+import os
 
 charms_openstack.charm.use_defaults("charm.default-select-release")
 
@@ -8,10 +9,15 @@ MULTIPATH_PACKAGES = [
     "sysfsutils",  # LP: #1947063
 ]
 
+HUAWEI_DRIVER_ISCSI = "{}.{}".format(
+    "cinder.volume.drivers.huawei.huawei_driver", "HuaweiISCSIDriver"
+)
+HUAWEI_DRIVER_FC = "{}.{}".format(
+    "cinder.volume.drivers.huawei.huawei_driver", "HuaweiFCDriver"
+)
 
-class CinderHuaweiCharm(
-    charms_openstack.charm.CinderStoragePluginCharm
-):
+
+class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
 
     # The name of the charm
     name = "cinder_huawei"
@@ -35,20 +41,28 @@ class CinderHuaweiCharm(
     stateless = True
 
     # Specify any config that the user *must* set.
-    mandatory_config = ["protocol"]
+    mandatory_config = ["protocol", "rest-url", "username", "password"]
 
     def cinder_configuration(self):
+        protocol = self.config.get("protocol").lower()
+        if protocol == "iscsi":
+            volume_driver = HUAWEI_DRIVER_ISCSI
+        elif protocol == "fc":
+            volume_driver = HUAWEI_DRIVER_FC
+
+        service_name = ch_hookenv.service_name()
         if self.config.get("volume-backend-name"):
             volume_backend_name = self.config.get("volume-backend-name")
         else:
-            volume_backend_name = ch_hookenv.service_name()
+            volume_backend_name = service_name
 
-        volume_driver = ""
-
+        huawei_conf_file = os.path.join(
+            "/etc/cinder/huawei", "{}.xml".format(service_name)
+        )
         driver_options = [
             ("volume_backend_name", volume_backend_name),
             ("volume_driver", volume_driver),
-            # Add config options that needs setting on cinder.conf
+            ("cinder_huawei_conf_file", huawei_conf_file),
         ]
 
         if self.config.get("use-multipath"):
@@ -59,4 +73,9 @@ class CinderHuaweiCharm(
                 ]
             )
 
+        self._render_huawei_conf_file(huawei_conf_file)
+
         return driver_options
+
+    def _render_huawei_conf_file(self, file):
+        pass

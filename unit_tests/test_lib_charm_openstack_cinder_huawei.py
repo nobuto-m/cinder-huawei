@@ -42,20 +42,52 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
         self.assertEqual(charm.packages, ["", "multipath-tools", "sysfsutils"])
 
     def test_cinder_configuration(self):
+        self.patch_object(charmhelpers.core.hookenv, "service_name")
+        self.service_name.return_value = "cinder-myapp-name"
         charm = self._patch_config_and_charm(
             {
                 "volume-backend-name": "my_backend_name",
                 "protocol": "iscsi",
-                # more options to test
             }
         )
         config = charm.cinder_configuration()
-        # Add check here that configuration is as expected.
         self.assertEqual(
             config,
             [
                 ("volume_backend_name", "my_backend_name"),
-                ("volume_driver", ""),
+                (
+                    "volume_driver",
+                    "cinder.volume.drivers.huawei.huawei_driver.HuaweiISCSIDriver",  # noqa
+                ),
+                (
+                    "cinder_huawei_conf_file",
+                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                ),
+            ],
+        )
+
+    def test_cinder_configuration_fc(self):
+        self.patch_object(charmhelpers.core.hookenv, "service_name")
+        self.service_name.return_value = "cinder-myapp-name"
+        charm = self._patch_config_and_charm(
+            {
+                "volume-backend-name": "my_backend_name",
+                "protocol": "fc",
+            }
+        )
+        config = charm.cinder_configuration()
+        self.assertEqual(
+            config,
+            [
+                ("volume_backend_name", "my_backend_name"),
+                (
+                    "volume_driver",
+                    "cinder.volume.drivers.huawei.huawei_driver.HuaweiFCDriver",  # noqa
+                ),
+                (
+                    "cinder_huawei_conf_file",
+                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                ),
             ],
         )
 
@@ -72,11 +104,20 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             config,
             [
                 ("volume_backend_name", "cinder-myapp-name"),
-                ("volume_driver", ""),
+                (
+                    "volume_driver",
+                    "cinder.volume.drivers.huawei.huawei_driver.HuaweiISCSIDriver",  # noqa
+                ),
+                (
+                    "cinder_huawei_conf_file",
+                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                ),
             ],
         )
 
     def test_cinder_configuration_use_multipath(self):
+        self.patch_object(charmhelpers.core.hookenv, "service_name")
+        self.service_name.return_value = "cinder-myapp-name"
         charm = self._patch_config_and_charm(
             {
                 "volume-backend-name": "my_backend_name",
@@ -89,7 +130,14 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             config,
             [
                 ("volume_backend_name", "my_backend_name"),
-                ("volume_driver", ""),
+                (
+                    "volume_driver",
+                    "cinder.volume.drivers.huawei.huawei_driver.HuaweiISCSIDriver",  # noqa
+                ),
+                (
+                    "cinder_huawei_conf_file",
+                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                ),
                 ("use_multipath_for_image_xfer", True),
                 ("enforce_multipath_for_image_xfer", True),
             ],

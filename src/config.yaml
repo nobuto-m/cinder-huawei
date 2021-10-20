@@ -17,3 +17,29 @@ options:
     default:
     description: |
       SAN protocol to use. Choose between iscsi or fc.
+  product:
+    type: string
+    default:
+    description: |
+      Type of a storage product. Possible values are FIXME
+  rest-url:
+    type: string
+    default:
+    description: |
+      Semicolon(;) separated list of the REST interface. e.g.,
+      https://my-endpoint.example.com:8088/deviceManager/rest/
+  username:
+    type: string
+    default:
+    description: |
+      User name of a storage administrator.
+  password:
+    type: string
+    default:
+    description: |
+      Password of a storage administrator.
+  storage-pool:
+    type: string
+    default:
+    description: |
+      Semicolon(;) separated list of storage pools to be used.
