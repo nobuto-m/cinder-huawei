@@ -1,0 +1,9 @@
+charm_name: cinder-huawei
+tests:
+  - tests.tests_cinder_huawei.CinderHuaweiTest
+configure:
+  - zaza.openstack.charm_tests.keystone.setup.add_demo_user
+gate_bundles:
+  - xenial-ussuri
+smoke_bundles:
+  - xenial-ussuri
