@@ -48,6 +48,9 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             {
                 "volume-backend-name": "my_backend_name",
                 "protocol": "iscsi",
+                "rest-url": "https://my.example.com:8088/deviceManager/rest/",
+                "username": "myuser",
+                "password": "mypassword",
             }
         )
         config = charm.cinder_configuration()
@@ -66,6 +69,19 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             ],
         )
 
+    def test_cinder_configuration_missing_mandatory_config(self):
+        charm = self._patch_config_and_charm(
+            {
+                "volume-backend-name": "my_backend_name",
+                "protocol": "iscsi",
+                "rest-url": "https://my.example.com:8088/deviceManager/rest/",
+                "username": "myuser",
+                "password": None,
+            }
+        )
+        config = charm.cinder_configuration()
+        self.assertEqual(config, None)
+
     def test_cinder_configuration_fc(self):
         self.patch_object(charmhelpers.core.hookenv, "service_name")
         self.service_name.return_value = "cinder-myapp-name"
@@ -73,6 +89,9 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             {
                 "volume-backend-name": "my_backend_name",
                 "protocol": "fc",
+                "rest-url": "https://my.example.com:8088/deviceManager/rest/",
+                "username": "myuser",
+                "password": "mypassword",
             }
         )
         config = charm.cinder_configuration()
@@ -96,7 +115,11 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
         self.service_name.return_value = "cinder-myapp-name"
         charm = self._patch_config_and_charm(
             {
+                "volume-backend-name": None,
                 "protocol": "iscsi",
+                "rest-url": "https://my.example.com:8088/deviceManager/rest/",
+                "username": "myuser",
+                "password": "mypassword",
             }
         )
         config = charm.cinder_configuration()
@@ -121,8 +144,11 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
         charm = self._patch_config_and_charm(
             {
                 "volume-backend-name": "my_backend_name",
-                "use-multipath": True,
                 "protocol": "iscsi",
+                "rest-url": "https://my.example.com:8088/deviceManager/rest/",
+                "username": "myuser",
+                "password": "mypassword",
+                "use-multipath": True,
             }
         )
         config = charm.cinder_configuration()
