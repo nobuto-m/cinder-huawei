@@ -38,7 +38,7 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
     # make sure multipath related packages are installed
     packages.extend(MULTIPATH_PACKAGES)
 
-    stateless = True
+    stateless = False
 
     # Specify any config that the user *must* set.
     mandatory_config = [
