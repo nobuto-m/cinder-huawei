@@ -38,6 +38,8 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
     # make sure multipath related packages are installed
     packages.extend(MULTIPATH_PACKAGES)
 
+    # https://docs.openstack.org/cinder/latest/reference/support-matrix.html#operation_active_active_ha
+    # https://docs.openstack.org/cinder/latest/contributor/high_availability.html#enabling-active-active-on-drivers
     stateless = False
 
     # Specify any config that the user *must* set.
