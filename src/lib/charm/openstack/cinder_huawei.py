@@ -1,6 +1,9 @@
-import charms_openstack.charm
-import charmhelpers.core.hookenv as ch_hookenv  # noqa
 import os
+
+import charmhelpers.core.hookenv as ch_hookenv  # noqa
+import charmhelpers.core.host as ch_host
+import charmhelpers.core.templating
+import charms_openstack.charm
 
 charms_openstack.charm.use_defaults("charm.default-select-release")
 
@@ -69,6 +72,8 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
         huawei_conf_file = os.path.join(
             "/etc/cinder/huawei", "{}.xml".format(service_name)
         )
+        self._render_huawei_conf_file(huawei_conf_file)
+
         driver_options = [
             ("volume_backend_name", volume_backend_name),
             ("volume_driver", volume_driver),
@@ -83,9 +88,22 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
                 ]
             )
 
-        self._render_huawei_conf_file(huawei_conf_file)
-
         return driver_options
 
-    def _render_huawei_conf_file(self, file):
-        pass
+    def _render_huawei_conf_file(self, target_file):
+        owner, group = "root", "cinder"
+        ch_host.mkdir(
+            os.path.dirname(target_file),
+            owner=owner,
+            group=group,
+            perms=0o750,
+        )
+
+        charmhelpers.core.templating.render(
+            source="cinder_huawei_conf.xml",
+            target=target_file,
+            context=self.config,
+            owner=owner,
+            group=group,
+            perms=0o640,
+        )
