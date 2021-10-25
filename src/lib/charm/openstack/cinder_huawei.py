@@ -94,8 +94,7 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
 
     def _render_huawei_conf_file(self, target_file):
         ch_host.mkdir(
-            os.path.dirname(target_file),
-            group=self.group,
+            os.path.dirname(target_file), group=self.group, perms=0o750
         )
 
         charmhelpers.core.templating.render(
@@ -103,4 +102,5 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
             target=target_file,
             context=self.config,
             group=self.group,
+            perms=0o640,
         )
