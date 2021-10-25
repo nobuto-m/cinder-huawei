@@ -65,7 +65,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 ),
                 (
                     "cinder_huawei_conf_file",
-                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                    "/etc/cinder/cinder-myapp-name/cinder_huawei_conf.xml",
                 ),
             ],
         )
@@ -108,7 +108,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 ),
                 (
                     "cinder_huawei_conf_file",
-                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                    "/etc/cinder/cinder-myapp-name/cinder_huawei_conf.xml",
                 ),
             ],
         )
@@ -137,7 +137,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 ),
                 (
                     "cinder_huawei_conf_file",
-                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                    "/etc/cinder/cinder-myapp-name/cinder_huawei_conf.xml",
                 ),
             ],
         )
@@ -167,7 +167,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
                 ),
                 (
                     "cinder_huawei_conf_file",
-                    "/etc/cinder/huawei/cinder-myapp-name.xml",
+                    "/etc/cinder/cinder-myapp-name/cinder_huawei_conf.xml",
                 ),
                 ("use_multipath_for_image_xfer", True),
                 ("enforce_multipath_for_image_xfer", True),
