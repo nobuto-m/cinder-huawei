@@ -2,7 +2,6 @@ import os
 
 import charmhelpers.core.hookenv as ch_hookenv  # noqa
 import charmhelpers.core.host as ch_host
-import charmhelpers.core.templating
 import charms_openstack.charm
 
 charms_openstack.charm.use_defaults("charm.default-select-release")
@@ -54,6 +53,13 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
 
     group = "cinder"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.huawei_conf_file = os.path.join(
+            "/etc/cinder/huawei", "{}.xml".format(self.service_name)
+        )
+        self.restart_map = {self.huawei_conf_file: ["cinder-volume"]}
+
     def cinder_configuration(self):
         mandatory_config_values = map(self.config.get, self.mandatory_config)
         if not all(list(mandatory_config_values)):
@@ -71,15 +77,17 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
         else:
             volume_backend_name = service_name
 
-        huawei_conf_file = os.path.join(
-            "/etc/cinder/huawei", "{}.xml".format(service_name)
+        ch_host.mkdir(
+            os.path.dirname(self.huawei_conf_file),
+            group=self.group,
+            perms=0o750,
         )
-        self._render_huawei_conf_file(huawei_conf_file)
+        self.render_all_configs()
 
         driver_options = [
             ("volume_backend_name", volume_backend_name),
             ("volume_driver", volume_driver),
-            ("cinder_huawei_conf_file", huawei_conf_file),
+            ("cinder_huawei_conf_file", self.huawei_conf_file),
         ]
 
         if self.config.get("use-multipath"):
@@ -91,16 +99,3 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
             )
 
         return driver_options
-
-    def _render_huawei_conf_file(self, target_file):
-        ch_host.mkdir(
-            os.path.dirname(target_file), group=self.group, perms=0o750
-        )
-
-        charmhelpers.core.templating.render(
-            source="cinder_huawei_conf.xml",
-            target=target_file,
-            context=vars(self.options),
-            group=self.group,
-            perms=0o640,
-        )
