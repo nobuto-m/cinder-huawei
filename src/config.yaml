@@ -21,7 +21,8 @@ options:
     type: string
     default:
     description: |
-      Type of a storage product. Possible values are FIXME
+      Type of a storage product. Possible values are 'V3', 'V5',
+      '18000', or 'Dorado'.
   rest-url:
     type: string
     default:

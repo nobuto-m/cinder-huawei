@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <config>
     <Storage>
         <Product>{{ options.product }}</Product>
-        <Protocol>{{ options.protocol }}</Protocol>
         <UserName>{{ options.username }}</UserName>
         <UserPassword>{{ options.password }}</UserPassword>
         <RestURL>{{ options.rest_url }}</RestURL>
     </Storage>
+    <LUN>
+        <StoragePool>{{ options.storage_pool }}</StoragePool>
+    </LUN>
 </config>

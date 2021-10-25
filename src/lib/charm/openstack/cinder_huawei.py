@@ -45,6 +45,7 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
     # Specify any config that the user *must* set.
     mandatory_config = [
         "protocol",
+        "product",
         "rest-url",
         "username",
         "password",
@@ -59,6 +60,9 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
             "/etc/cinder", self.service_name, "cinder_huawei_conf.xml"
         )
         self.restart_map = {self.huawei_conf_file: ["cinder-volume"]}
+        # Huawei driver tries to rewrite the config in the
+        # initialization and requires a write permission
+        self.permission_override_map = {self.huawei_conf_file: 0o660}
 
     def cinder_configuration(self):
         mandatory_config_values = map(self.config.get, self.mandatory_config)

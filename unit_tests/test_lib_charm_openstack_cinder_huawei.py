@@ -48,6 +48,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             {
                 "volume-backend-name": "my_backend_name",
                 "protocol": "iscsi",
+                "product": "Dorado",
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
@@ -75,6 +76,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             {
                 "volume-backend-name": "my_backend_name",
                 "protocol": "iscsi",
+                "product": "Dorado",
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": None,
@@ -91,6 +93,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             {
                 "volume-backend-name": "my_backend_name",
                 "protocol": "fc",
+                "product": "Dorado",
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
@@ -120,6 +123,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             {
                 "volume-backend-name": None,
                 "protocol": "iscsi",
+                "product": "Dorado",
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
@@ -149,6 +153,7 @@ class TestCinderHuaweiCharm(test_utils.PatchHelper):
             {
                 "volume-backend-name": "my_backend_name",
                 "protocol": "iscsi",
+                "product": "Dorado",
                 "rest-url": "https://my.example.com:8088/deviceManager/rest/",
                 "username": "myuser",
                 "password": "mypassword",
