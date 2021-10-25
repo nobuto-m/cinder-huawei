@@ -56,7 +56,7 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.huawei_conf_file = os.path.join(
-            "/etc/cinder/huawei", "{}.xml".format(self.service_name)
+            "/etc/cinder", self.service_name, "cinder_huawei_conf.xml"
         )
         self.restart_map = {self.huawei_conf_file: ["cinder-volume"]}
 
