@@ -1,3 +1,4 @@
+import base64
 import os
 
 import charmhelpers.core.hookenv as ch_hookenv  # noqa
@@ -60,9 +61,6 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
             "/etc/cinder", self.service_name, "cinder_huawei_conf.xml"
         )
         self.restart_map = {self.huawei_conf_file: ["cinder-volume"]}
-        # Huawei driver tries to rewrite the config in the
-        # initialization and requires a write permission
-        self.permission_override_map = {self.huawei_conf_file: 0o660}
 
     def cinder_configuration(self):
         mandatory_config_values = map(self.config.get, self.mandatory_config)
@@ -103,3 +101,13 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
             )
 
         return driver_options
+
+    @charms_openstack.adapters.config_property
+    def username_base64(config):
+        s = config.username.strip()
+        return base64.b64encode(s.encode()).decode()
+
+    @charms_openstack.adapters.config_property
+    def password_base64(config):
+        s = config.password.strip()
+        return base64.b64encode(s.encode()).decode()

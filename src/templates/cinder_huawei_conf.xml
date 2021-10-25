@@ -1,8 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <config>
     <Storage>
         <Product>{{ options.product }}</Product>
-        <UserName>{{ options.username }}</UserName>
-        <UserPassword>{{ options.password }}</UserPassword>
+        <UserName>!$$${{ options.username_base64 }}</UserName>
+        <UserPassword>!$$${{ options.password_base64 }}</UserPassword>
         <RestURL>{{ options.rest_url }}</RestURL>
     </Storage>
     <LUN>
