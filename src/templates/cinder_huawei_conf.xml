@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!-- Configuration file maintained by Juju. Local changes may be overwritten. -->
 <config>
     <Storage>
         <Product>{{ options.product }}</Product>
