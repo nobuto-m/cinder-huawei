@@ -52,6 +52,8 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
         "storage-pool",
     ]
 
+    group = "cinder"
+
     def cinder_configuration(self):
         mandatory_config_values = map(self.config.get, self.mandatory_config)
         if not all(list(mandatory_config_values)):
@@ -91,19 +93,14 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
         return driver_options
 
     def _render_huawei_conf_file(self, target_file):
-        owner, group = "root", "cinder"
         ch_host.mkdir(
             os.path.dirname(target_file),
-            owner=owner,
-            group=group,
-            perms=0o750,
+            group=self.group,
         )
 
         charmhelpers.core.templating.render(
             source="cinder_huawei_conf.xml",
             target=target_file,
             context=self.config,
-            owner=owner,
-            group=group,
-            perms=0o640,
+            group=self.group,
         )

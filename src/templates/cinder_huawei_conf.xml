@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <Storage>
+        <Product>{{ product }}</Product>
+        <Protocol>{{ protocol }}</Protocol>
+        <UserName>{{ username }}</UserName>
+        <UserPassword>{{ password }}</UserPassword>
+        <RestURL>{{ rest_url }}</RestURL>
+    </Storage>
+</config>
