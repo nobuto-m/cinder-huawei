@@ -100,7 +100,7 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
         charmhelpers.core.templating.render(
             source="cinder_huawei_conf.xml",
             target=target_file,
-            context=self.config,
+            context=vars(self.options),
             group=self.group,
             perms=0o640,
         )
