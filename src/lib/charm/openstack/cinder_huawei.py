@@ -73,11 +73,10 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
         elif protocol == "fc":
             volume_driver = HUAWEI_DRIVER_FC
 
-        service_name = ch_hookenv.service_name()
         if self.config.get("volume-backend-name"):
             volume_backend_name = self.config.get("volume-backend-name")
         else:
-            volume_backend_name = service_name
+            volume_backend_name = self.service_name
 
         ch_host.mkdir(
             os.path.dirname(self.huawei_conf_file),
