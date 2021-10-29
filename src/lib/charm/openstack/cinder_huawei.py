@@ -20,6 +20,18 @@ HUAWEI_DRIVER_FC = "{}.{}".format(
 )
 
 
+@charms_openstack.adapters.config_property
+def username_base64(config):
+    s = config.username.strip()
+    return base64.b64encode(s.encode()).decode()
+
+
+@charms_openstack.adapters.config_property
+def password_base64(config):
+    s = config.password.strip()
+    return base64.b64encode(s.encode()).decode()
+
+
 class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
 
     # The name of the charm
@@ -100,13 +112,3 @@ class CinderHuaweiCharm(charms_openstack.charm.CinderStoragePluginCharm):
             )
 
         return driver_options
-
-    @charms_openstack.adapters.config_property
-    def username_base64(config):
-        s = config.username.strip()
-        return base64.b64encode(s.encode()).decode()
-
-    @charms_openstack.adapters.config_property
-    def password_base64(config):
-        s = config.password.strip()
-        return base64.b64encode(s.encode()).decode()
